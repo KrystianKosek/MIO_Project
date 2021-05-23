@@ -1,20 +1,23 @@
-from keras.engine.saving import load_model
+import numpy as np
 from matplotlib import pyplot as plt
 from tensorflow import keras
 from keras.preprocessing.image import load_img
+from tensorflow.keras.models import load_model
+import tensorflow as tf
 
 def predict_image(filename, img_height, img_width):
     img = load_img(filename, target_size=(img_height, img_width))
-    image = keras.preprocessing.image.img_to_array(img)
-    image = image / 255.0
-    image = image.reshape(1, 180, 180, 3)
-    model = load_model('model.h5')
-    prediction = model.predict(image)
+    img_array = keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0)  # Create a batch
+    model = load_model('model2.h5')
+    class_names = ['NORMAL', 'PNEUMONIA']
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+    print(
+        "This image most likely belongs to {} with a {:.2f} percent confidence."
+            .format(class_names[np.argmax(score)], 100 * np.max(score))
+    )
     plt.imshow(img)
-    if (prediction[0] > 0.5):
-        print("predicted: PNEUMONIA")
-    else:
-        print("predicted: NORMAL")
     plt.show()
 
-predict_image("./chest_xray/train/PNEUMONIA/person5_bacteria_15.jpeg", 180, 180)
+predict_image("./chest_xray/train/NORMAL/IM-0279-0001.jpeg", 180, 180)

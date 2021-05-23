@@ -20,4 +20,4 @@ def predict_image(filename, img_height, img_width):
     plt.imshow(img)
     plt.show()
 
-predict_image("./chest_xray/train/NORMAL/IM-0279-0001.jpeg", 180, 180)
+predict_image("./chest_xray/test/PNEUMONIA/person113_bacteria_540.jpeg", 180, 180)

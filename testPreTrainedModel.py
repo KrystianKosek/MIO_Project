@@ -17,10 +17,12 @@ def predict_image(filename, img_height, img_width):
     predictions = tf.nn.sigmoid(predictions)
     print(predictions)
     predictions = tf.where(predictions < 0.5, 0, 1)
-    print('Predictions:\n', predictions.numpy())
-
+    if predictions == 1:
+        print("predicted: PNEUMONIA")
+    else:
+        print("predicted: NORMAL")
     plt.imshow(img)
     plt.show()
 
 
-predict_image("./chest_xray/test/NORMAL/IM-0023-0001.jpeg", 180, 180)
+predict_image("./chest_xray/test/NORMAL/NORMAL2-IM-0373-0001.jpeg", 180, 180)

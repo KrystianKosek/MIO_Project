@@ -10,14 +10,13 @@ def predict_image(filename, img_height, img_width):
     img_array = keras.preprocessing.image.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)  # Create a batch
     model = load_model('model2.h5')
-    class_names = ['NORMAL', 'PNEUMONIA']
     predictions = model.predict(img_array)
-    score = tf.nn.softmax(predictions[0])
-    print(
-        "This image most likely belongs to {} with a {:.2f} percent confidence."
-            .format(class_names[np.argmax(score)], 100 * np.max(score))
-    )
+    print(predictions[0])
+    if predictions[0] > 0.5:
+        print("predicted: PNEUMONIA")
+    else:
+        print("predicted: NORMAL")
     plt.imshow(img)
     plt.show()
 
-predict_image("./chest_xray/test/PNEUMONIA/person113_bacteria_540.jpeg", 180, 180)
+predict_image("./chest_xray/test/NORMAL/IM-0023-0001.jpeg", 180, 180)

@@ -1,4 +1,3 @@
-from matplotlib import pyplot as plt
 import tensorflow as tf
 from keras.preprocessing.image import load_img
 from matplotlib import pyplot as plt

@@ -1,5 +1,6 @@
+import os
+
 import numpy as np
-from matplotlib import pyplot as plt
 from tensorflow import keras
 from keras.preprocessing.image import load_img
 from tensorflow.keras.models import load_model
@@ -14,7 +15,7 @@ def predict_image(filename, img_height, img_width):
         return 0
     img_array = keras.preprocessing.image.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)  # Create a batch
-    model = load_model('covidModel.h5')
+    model = load_model('preTrainedCovidModel.h5')
     predictions = model.predict(img_array)
     print(predictions)
     score = tf.nn.softmax(predictions[0])
@@ -24,6 +25,6 @@ def predict_image(filename, img_height, img_width):
             .format(class_names[np.argmax(score)], 100 * np.max(score))
     )
 
-
-for i in range(1,656):
-    predict_image(f"./chest_xray2/COVID/COVID-{i}.png", 180, 180)
+for root, dirs, files in os.walk("./chest_xray3/test/COVID/"):
+    for filename in files:
+        predict_image("./chest_xray3/test/COVID/" + filename, 180, 180)

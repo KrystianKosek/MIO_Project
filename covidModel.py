@@ -7,15 +7,17 @@ from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
 
 # directories
-main_dir = "./chest_xray2/"
+main_dir = "./chest_xray3/"
+train_data_dir = main_dir + "train/"
+validation_data_dir = main_dir + "val/"
+test_data_dir = main_dir + "test/"
 
-train_n = main_dir + 'NORMAL/'
-train_p = main_dir + 'PNEUMONIA/'
-train_c = main_dir + 'COVID/'
+train_n = train_data_dir + 'NORMAL/'
+train_p = train_data_dir + 'PNEUMONIA/'
 
+print("length of cases in training set:", len(os.listdir(train_p)) + len(os.listdir(train_n)))
 print("length of pneumonia cases in training set:", len(os.listdir(train_p)))
 print("length of normal cases in training set:", len(os.listdir(train_n)))
-print("length of covid cases in training set:", len(os.listdir(train_c)))
 
 # input values
 batch_size = 16
@@ -30,19 +32,19 @@ else:
 
 # data sets
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
-    main_dir,
-    validation_split=0.2,
-    subset="training",
-    seed=123,
+    train_data_dir,
     shuffle=True,
     image_size=(img_height, img_width),
     batch_size=batch_size)
 
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
-    main_dir,
-    validation_split=0.2,
-    subset="validation",
-    seed=123,
+    validation_data_dir,
+    shuffle=True,
+    image_size=(img_height, img_width),
+    batch_size=batch_size)
+
+test_ds = tf.keras.preprocessing.image_dataset_from_directory(
+    test_data_dir,
     shuffle=True,
     image_size=(img_height, img_width),
     batch_size=batch_size)
@@ -50,7 +52,12 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
 class_names = train_ds.class_names
 print(class_names)
 
+
 AUTOTUNE = tf.data.experimental.AUTOTUNE
+
+train_ds = train_ds.prefetch(buffer_size=AUTOTUNE)
+val_ds = val_ds.prefetch(buffer_size=AUTOTUNE)
+test_ds = test_ds.prefetch(buffer_size=AUTOTUNE)
 
 train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
 normalization_layer = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
@@ -78,7 +85,7 @@ model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-epochs=4
+epochs=10
 history = model.fit(
     train_ds,
     validation_data=val_ds,
@@ -107,4 +114,7 @@ plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
 
-model.save('covidModel.h5')
+loss, accuracy = model.evaluate(test_ds)
+print('Test accuracy :', accuracy)
+
+model.save('covidModel2.h5')

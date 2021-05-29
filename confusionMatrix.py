@@ -18,7 +18,7 @@ test_ds = tf.keras.preprocessing.image_dataset_from_directory(
     shuffle=False,
     image_size=(img_height, img_width))
 
-model = load_model('preTrainedCovidModel.h5')
+model = load_model('modelForChestXray3.h5')
 class_names = test_ds.class_names
 
 y_pred = model.predict(test_ds)

@@ -23,7 +23,7 @@ def predict_image(class_names, model, filename, img_height, img_width):
 
 
 class_names = ['COVID', 'NORMAL', 'PNEUMONIA']
-model = load_model('preTrainedCovidModel.h5')
+model = load_model('modelForChestXray3.h5')
 
 for root, dirs, files in os.walk("./chest_xray3/test/NORMAL/"):
     for filename in files:

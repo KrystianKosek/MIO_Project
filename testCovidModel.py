@@ -1,5 +1,7 @@
+'''
+Skrypt testowy służący do ręcznego sprawdzania gotowych modeli.
+'''
 import os
-
 import numpy as np
 from tensorflow import keras
 from keras.preprocessing.image import load_img
@@ -12,7 +14,7 @@ def predict_image(class_names, model, filename, img_height, img_width):
     except:
         return 0
     img_array = keras.preprocessing.image.img_to_array(img)
-    img_array = tf.expand_dims(img_array, 0)  # Create a batch
+    img_array = tf.expand_dims(img_array, 0)
     predictions = model.predict(img_array)
     score = tf.nn.softmax(predictions[0])
 

@@ -1,3 +1,9 @@
+'''
+Plik ten zawiera ręcznie utworzony model do predykcji tylko i wyłącznie 2 klas 'NORMAL' oraz 'PNEUMONIA'.
+Plik może się obecnie nie kompilować / nie działać poprawnie, ponieważ służył nam do nauki tensorflow'a,
+był wielokrotnie zmieniany oraz modyfikowany.
+'''
+
 import numpy as np
 import os
 import tensorflow as tf
@@ -7,7 +13,7 @@ from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
 
 # directories
-main_dir = "./chest_xray3/"
+main_dir = "./chest_xray/"
 train_data_dir = main_dir + "train/"
 validation_data_dir = main_dir + "val/"
 test_data_dir = main_dir + "test/"

@@ -1,3 +1,6 @@
+'''
+Skrypt wyrysowujący macierz pomyłek na podanym zbiorze testującym
+'''
 import pandas as pd
 import seaborn as sn
 import tensorflow as tf

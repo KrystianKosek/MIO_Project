@@ -1,3 +1,6 @@
+'''
+Plik zawiera skrypt do tworzenia modelu z wykorzystaniem pretrenowanego modelu MobileNet V2
+'''
 import tensorflow as tf
 from matplotlib import pyplot as plt
 
@@ -157,4 +160,4 @@ test_ds_loss, test_ds_acc = model.evaluate(test_ds)
 print('Test data accuracy :', test_ds_acc)
 print('Test data loss :', test_ds_loss)
 
-model.save('preTrainedCovidModel3.h5')
+model.save('preTrainedCovidModel4.h5')

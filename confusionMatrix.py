@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
 from tensorflow.python.keras.models import load_model
 
-main_dir = "./chest_xray3/"
+main_dir = "./chest_xray2/"
 train_data_dir = main_dir + "train/"
 test_data_dir = main_dir + "test/"
 
@@ -18,7 +18,7 @@ test_ds = tf.keras.preprocessing.image_dataset_from_directory(
     shuffle=False,
     image_size=(img_height, img_width))
 
-model = load_model('modelForChestXray3.h5')
+model = load_model('modelForChestXray2.h5')
 class_names = test_ds.class_names
 
 y_pred = model.predict(test_ds)
@@ -32,6 +32,6 @@ df_cm = pd.DataFrame(cm, index=[i for i in class_names],
                      columns=[i for i in class_names])
 plt.figure(figsize=(10, 7))
 sn.heatmap(df_cm, annot=True, cmap='Blues', fmt='g')
-plt.ylabel("Prediction classes", fontsize=25)
-plt.xlabel("True classes", fontsize=25)
+plt.xlabel("Prediction classes", fontsize=25)
+plt.ylabel("True classes", fontsize=25)
 plt.show()
